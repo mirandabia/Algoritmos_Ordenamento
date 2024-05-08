@@ -34,10 +34,10 @@ São feitos 10.000 testes de ordenção de uma lista randômica usando os dois a
 Lista desorganizada: 
 Payload: 84 87 78 16 94 
 
-Bubble Sort (Padrão): 
+Selection Sort (Padrão): 
 Payload: 16 78 84 87 94 
 
-Bubble Sort (Otimizado): 
+Selection Sort (Otimizado): 
 Payload: 16 78 84 87 94 
 
 
