@@ -8,7 +8,6 @@ using std::chrono::microseconds;
 
 using std::cout;
 using std::endl;
-using std::string;
 
 typedef struct Node 
 {
@@ -28,7 +27,6 @@ void optimizationBubbleSort(Node**, int);
 
 double mean(float*, int);
 double var(float*, int, double);
-void changeArrayScale(float*, int, int);
 
 int main()
 {   
@@ -40,7 +38,7 @@ int main()
     int iTestLength = 10;
     for (int iPos = 0; iPos < iTestLength; iPos++)
     {
-        int iRandomVal = rand() %100 + 1;  // Gera um número aleatório entre 1 e 1000
+        int iRandomVal = rand() %100 + 1;  // Gera um número aleatório entre 1 e 100
         insertEnd(&list1, iRandomVal);
         insertEnd(&list2, iRandomVal);
     }
@@ -56,10 +54,13 @@ int main()
     optimizationBubbleSort(&list2, iTestLength);
     displayList(list2);
 
+    // Limpando a memória alocada para as listas
+    deleteList(&list1);
+    deleteList(&list2);
     cout << endl << endl;
 
 
-    // =============== Análise Estátistica =============== 
+    // =============== Análise Estatística =============== 
 
     // Variáveis relativas ao registros de tempo
     int iAmountTests = 10000; // 10.000 testes
@@ -129,6 +130,7 @@ int main()
 }
 
 
+// Função para trocar valores entre dois nós
 void swapValue(Node** Value_1, Node** Value_2) 
 {
     int temp = (*Value_1)->iPayload;
@@ -136,7 +138,7 @@ void swapValue(Node** Value_1, Node** Value_2)
     (*Value_2)->iPayload = temp;
 }
 
-
+// Implementação do Bubble Sort para uma lista encadeada
 void bubbleSort(Node** ptrHead, int iLength) 
 {
     Node* current = *ptrHead;
@@ -154,7 +156,7 @@ void bubbleSort(Node** ptrHead, int iLength)
     }
 }
 
-
+// Implementação do Bubble Sort otimizado para uma lista encadeada
 void optimizationBubbleSort(Node** ptrHead, int iLength) 
 {
     Node* current = *ptrHead;
@@ -201,7 +203,7 @@ void displayList(Node* node)
         return;
     }
     
-    // se receber um nó do meio, rejeito (um modo)
+    // Se receber um nó do meio, rejeita (um modo)
     if (node->ptrPrev != nullptr)
     {
         cout << "O elemento está no meio ou fim da lista: não é possível realizar displayList" << endl;
@@ -239,7 +241,7 @@ void insertEnd(Node** ptrHead, int iValue)
     }
     
     newNode->ptrPrev = temp; // newnode aponta para o fim da lista
-    temp->ptrNext = newNode; // antigo ultimo elemento aponta para o novo nó
+    temp->ptrNext = newNode; // antigo último elemento aponta para o novo nó
 }
 
 
@@ -258,6 +260,7 @@ void deleteList(Node** ptrHead)
 }
 
 
+// Função para calcular a média de um array
 double mean(float* ptrArrf, int iLength) {
     double llSoma = 0; 
 
@@ -272,6 +275,7 @@ double mean(float* ptrArrf, int iLength) {
 }
 
 
+// Função para calcular a variância de um array
 double var(float* ptrArrf, int iLength, double dMean) {
     double llSoma = 0;
 
