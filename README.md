@@ -50,4 +50,4 @@ Média: 37.8098
 Variância: 2.57702
 ```
 
-Nessa segunda atividade, vemos que o Selection Sort otimizado é de fato mais rápido que o algoritimo padrão.
+Nessa segunda atividade, vemos que o Selection Sort otimizado é de fato mais rápido que o algoritimo padrão. Olhando para a variância, vemos que o tempo do algotimo otimizado é distribuido concentrando valores próximos à média. Já com o algoritimo padrão é mais fácil de notar uma diferença expressiva de tempo comparando várias execuções.
