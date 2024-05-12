@@ -22,14 +22,14 @@ void insertEnd(Node**, int);
 void deleteList(Node**);
 void swapValue(Node**, Node**);
 
-void insertionSort(Node**, int);
+void insertionSort(Node**);
 double mean(float*, int);
 double var(float*, int, double);
 
 int main()
 {
     Node* list1 = nullptr;
-    int iTestLength = 5;
+    int iTestLength = 15;
     for (int iPos = 0; iPos < iTestLength; iPos++)
     {
         int iRandomVal = rand() % 100 + 1;
@@ -40,13 +40,13 @@ int main()
     displayList(list1);
 
     cout << endl << "Insertion Sort:" << endl;
-    insertionSort(&list1, iTestLength);
+    insertionSort(&list1);
     displayList(list1);
 
     cout << endl << endl;
 }
 
-void insertionSort(Node** ptrHead, int iLength)
+void insertionSort(Node** ptrHead)
 {
     if (*ptrHead == nullptr || (*ptrHead)->ptrNext == nullptr)
         return;
