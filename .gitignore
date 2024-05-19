@@ -1,0 +1,6 @@
+implementation/selectionSort.o
+implementation/insertionSort.o
+implementation/doublyLinkedList.o
+main.exe
+main.o
+implementation/bubbleSort.o
