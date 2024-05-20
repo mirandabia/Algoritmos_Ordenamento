@@ -12,8 +12,8 @@ using namespace std::chrono;
 
 int main()
 {
-    int iAmountOfTests = 1000;
-    int iLength = 1000;
+    int iAmountOfTests = 100; // Quantidade de testes
+    int iLength = 10000; // Tamanho das listas
     int iExecutionTime;
 
     for (int i = 0; i < iAmountOfTests; i++)
@@ -23,7 +23,7 @@ int main()
         // Popula as listas
         for (int iPos = 0; iPos < iLength; iPos++)
         {
-            int iRandomVal = rand() % (iLength * 10) + 1;  // Gera um número aleatório entre 1 e 10.000
+            int iRandomVal = rand() % 100 + 1;  // Gera um número aleatório entre 1 e 100
             insertEnd(&ptrHead, iRandomVal);
         }
 
@@ -41,7 +41,7 @@ int main()
         // Captura o tempo após a ordenação
         auto timeStop_1 = high_resolution_clock::now();
 
-        // Calcula o tempo de execução em nanosegundos
+        // Calcula o tempo de execução em microsegundos
         auto timeDuration_1 = duration_cast<microseconds>(timeStop_1 - timeStart_1);
         iExecutionTime = (int) timeDuration_1.count(); 
 
