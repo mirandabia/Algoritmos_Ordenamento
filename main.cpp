@@ -2,6 +2,7 @@
 #include "headers/bubbleSort.h"
 #include "headers/selectionSort.h"
 #include "headers/insertionSort.h"
+#include "headers/radixSort.h"
 
 #include <iostream>
 #include <chrono>
@@ -31,11 +32,12 @@ int main()
         auto timeStart_1 = chrono::high_resolution_clock::now();
 
         // ------ Seleciona o algoritmo de ordenação ------ 
-        bubbleSort(&ptrHead, iLength);
+        // bubbleSort(&ptrHead, iLength);
         // optimizationBubbleSort(&ptrHead, iLength);
         // selectionSort(&ptrHead, iLength);
         // optimizedSelectionSort(&ptrHead, iLength);
         // insertionSort(&ptrHead);
+        radixSort(&ptrHead);
         // ------ Seleciona o algoritmo de ordenação ------ 
 
         // Captura o tempo após a ordenação

@@ -1,18 +1,10 @@
-#include <iostream>
-#include <cmath>
-
-using namespace std;
-
-struct Node {
-    int iData;
-    Node* ptrNext;
-    Node* ptrPrev;
-};
+#include "../headers/radixSort.h"
+#include "../headers/insertionSort.h"
 
 // Função para inserir um nó no final da lista
-void append(Node** ptrHeadRef, int iData) {
+void append(Node** ptrHeadRef, int iPayload) {
     Node* ptrNewNode = new Node();
-    ptrNewNode->iData = iData;
+    ptrNewNode->iPayload = iPayload;
     ptrNewNode->ptrNext = nullptr;
     ptrNewNode->ptrPrev = nullptr;
 
@@ -30,11 +22,11 @@ void append(Node** ptrHeadRef, int iData) {
 
 // Função para encontrar o maior número na lista
 int getMax(Node* ptrHead) {
-    int iMax = ptrHead->iData;
+    int iMax = ptrHead->iPayload;
     Node* ptrNode = ptrHead;
     while (ptrNode != nullptr) {
-        if (ptrNode->iData > iMax)
-            iMax = ptrNode->iData;
+        if (ptrNode->iPayload > iMax)
+            iMax = ptrNode->iPayload;
         ptrNode = ptrNode->ptrNext;
     }
     return iMax;
@@ -48,7 +40,7 @@ void countSort(Node** ptrHead, int iExp) {
 
     // Preenche as contagens
     while (ptrNode != nullptr) {
-        int iIndex = (ptrNode->iData / iExp) % 10;
+        int iIndex = (ptrNode->iPayload / iExp) % 10;
         iCount[iIndex]++;
         ptrNode = ptrNode->ptrNext;
     }
@@ -56,8 +48,8 @@ void countSort(Node** ptrHead, int iExp) {
     // Constrói o array de saída
     ptrNode = *ptrHead;
     while (ptrNode != nullptr) {
-        int iIndex = (ptrNode->iData / iExp) % 10;
-        append(&ptrOutput[iIndex], ptrNode->iData);
+        int iIndex = (ptrNode->iPayload / iExp) % 10;
+        append(&ptrOutput[iIndex], ptrNode->iPayload);
         ptrNode = ptrNode->ptrNext;
     }
 
@@ -66,7 +58,7 @@ void countSort(Node** ptrHead, int iExp) {
     for (int i = 0; i < 10; i++) {
         Node* ptrTempNode = ptrOutput[i];
         while (ptrTempNode != nullptr) {
-            append(ptrHead, ptrTempNode->iData);
+            append(ptrHead, ptrTempNode->iPayload);
             ptrTempNode = ptrTempNode->ptrNext;
         }
     }
@@ -78,35 +70,4 @@ void radixSort(Node** ptrHead) {
     for (int iExp = 1; iMax / iExp > 0; iExp *= 10) {
         countSort(ptrHead, iExp);
     }
-}
-
-// Função para imprimir a lista
-void printList(Node* ptrNode) {
-    while (ptrNode != nullptr) {
-        cout << ptrNode->iData << " ";
-        ptrNode = ptrNode->ptrNext;
-    }
-    cout << endl;
-}
-
-int main() {
-    Node* ptrHead = nullptr;
-    append(&ptrHead, 170);
-    append(&ptrHead, 45);
-    append(&ptrHead, 75);
-    append(&ptrHead, 90);
-    append(&ptrHead, 802);
-    append(&ptrHead, 24);
-    append(&ptrHead, 2);
-    append(&ptrHead, 66);
-
-    cout << "Lista original:\n";
-    printList(ptrHead);
-
-    radixSort(&ptrHead);
-
-    cout << "Lista ordenada:\n";
-    printList(ptrHead);
-
-    return 0;
 }

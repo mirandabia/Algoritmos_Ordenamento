@@ -7,7 +7,8 @@ SRCS = main.cpp \
        implementation/doublyLinkedList.cpp \
        implementation/bubbleSort.cpp \
        implementation/selectionSort.cpp \
-       implementation/insertionSort.cpp
+       implementation/insertionSort.cpp \
+       implementation/radixSort.cpp
 
 # Objetos a serem gerados a partir dos arquivos fonte
 OBJS = $(SRCS:.cpp=.o)
