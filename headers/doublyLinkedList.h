@@ -9,13 +9,21 @@ struct Node {
     Node* ptrPrev = nullptr;
 };
 
+struct DoublyLinkedList {
+    Node* ptrHead;
+    Node* ptrTail;
+};
+
 Node* createNode(int);
 void displayList(Node*);
-
-void insertEnd(Node**, int);
-
-void deleteList(Node**);
-
+void insertEnd(DoublyLinkedList*, int);
+void deleteList(DoublyLinkedList*);
 void swapValue(Node*, Node*);
+bool isEmpty(DoublyLinkedList*);
+DoublyLinkedList* createList();
+DoublyLinkedList* createListByArray(int[], int);
+Node* searchList(DoublyLinkedList*, int);
+void pushList(DoublyLinkedList*, int);
+Node* popList(DoublyLinkedList*);
 
 #endif
