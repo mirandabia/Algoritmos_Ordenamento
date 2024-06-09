@@ -17,7 +17,7 @@ Node* lesserLeaf(Node*);
 Node* higherLeaf(Node*);
 void printTree(Node*);
 
-Node* searchDFS(Node*, int)
-Node* searchBFS(Node*, int)
+Node* searchDFS(Node*, int);
+Node* searchBFS(Node*, int);
 
 #endif // TREE_H
