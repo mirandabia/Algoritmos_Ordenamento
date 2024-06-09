@@ -1,0 +1,4 @@
+#ifndef TIME_MEASURE_H
+#define TIME_MEASURE_H
+
+#endif // TIME_MEASURE_H
