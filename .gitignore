@@ -5,3 +5,5 @@ main.exe
 main.o
 implementation/bubbleSort.o
 implementation/radixSort.o
+implementation/time_measure.o
+implementation/tree.o
