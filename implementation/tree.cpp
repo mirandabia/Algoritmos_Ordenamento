@@ -118,3 +118,38 @@ void printTree(Node* startingNode)
     cout << startingNode->iPayload << " ";
     printTree(startingNode->ptrNext);
 }
+
+Node* searchDFS(Node* startingNode, int iValue)
+{
+    if(startingNode == nullptr) return nullptr;
+    else if(iValue == startingNode->iPayload) return startingNode;
+    else if(iValue < startingNode->iPayload) return searchDFS(startingNode->ptrPrev, iValue);
+    else return searchDFS(startingNode->ptrNext, iValue);
+}
+
+Node* searchBFS(Node* startingNode, int iValue) {
+    if (startingNode == nullptr) return nullptr;
+
+    DoublyLinkedList* ptrQueue = createList();
+    pushList(ptrQueue, startingNode->iPayload);  // Armazenar o ponteiro do nó como inteiro
+
+    while (!isEmpty(ptrQueue)) {
+        Node* ptrCurrent = popList(ptrQueue);
+
+        if (ptrCurrent->iPayload == iValue) {
+            deleteList(ptrQueue);
+            return ptrCurrent;
+        }
+
+        if (ptrCurrent->ptrPrev != nullptr) {
+            pushList(ptrQueue, ptrCurrent->ptrPrev->iPayload);
+        }
+
+        if (ptrCurrent->ptrNext != nullptr) {
+            pushList(ptrQueue, (int)ptrCurrent->ptrNext->iPayload);
+        }
+    }
+
+    deleteList(ptrQueue);
+    return nullptr;
+}
