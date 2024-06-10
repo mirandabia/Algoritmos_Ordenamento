@@ -9,9 +9,12 @@
 #include <iostream>
 #include <chrono>
 #include <random>
+#include <fstream>
 
 using namespace std;
 using namespace std::chrono;
+
+void saveArray(int[], int, string);
 
 int main()
 {
@@ -21,8 +24,16 @@ int main()
 
     int iAmountOfTests = 100; // Quantidade de testes
     int iLength = 10000; // Tamanho das listas
-    int iExecutionTime;
 
+    // Vetores para armazenar os tempos de execução
+    int timeBubble[iAmountOfTests];
+    int timeBubbleOptimized[iAmountOfTests];
+    int timeIsertion[iAmountOfTests];
+    int timeSelection[iAmountOfTests];
+    int timeSelectionOptimized[iAmountOfTests];
+    int timeRadix[iAmountOfTests];
+
+    // Testes para os tempos de execução dos algoritmos de ordenamento
     for (int i = 0; i < iAmountOfTests; i++)
     {    
         DoublyLinkedList* ptrList = createList(); // Inicializa a lista corretamente
@@ -34,37 +45,114 @@ int main()
             insertEnd(ptrList, iRandomVal);
         }
 
-        Node* ptrHead = ptrList->ptrHead; 
+        for (int j = 0; j < 6; j++) // Loop para chamar cada função de ordenamento
+        {
+            DoublyLinkedList* listCopy = copyList(ptrList); // Copia a lista para não alterar a original
+            Node* ptrCopy = listCopy->ptrHead; 
 
-        // Captura o tempo inicial
-        auto timeStart_1 = chrono::high_resolution_clock::now();
+            switch (j) // Armazenar o tempo de execução no vetor apropriado
+            {
+                case 0: 
+                    timeBubble[i] = (int) measureExecutionTime([&]() 
+                    { bubbleSort(&ptrCopy, iLength); });
+                    break;
+                case 1: 
+                    timeBubbleOptimized[i] = (int) measureExecutionTime([&]() 
+                    { optimizationBubbleSort(&ptrCopy, iLength); });
+                    break;
+                case 2: 
+                    timeIsertion[i] = (int) measureExecutionTime([&]() 
+                    { insertionSort(&ptrCopy); });
+                    break;
+                case 3: 
+                    timeSelection[i] = (int) measureExecutionTime([&]() 
+                    { selectionSort(&ptrCopy, iLength); });
+                    break;
+                case 4: 
+                    timeSelectionOptimized[i] = (int) measureExecutionTime([&]() 
+                    { optimizedSelectionSort(&ptrCopy, iLength); });
+                    break;
+                case 5: 
+                    timeRadix[i] = (int) measureExecutionTime([&]() 
+                    { radixSort(&ptrCopy); });
+                    break;
+            }
 
-        // ------ Seleciona o algoritmo de ordenação ------ 
-        // bubbleSort(&ptrHead, iLength);
-        // optimizationBubbleSort(&ptrHead, iLength);
-        // selectionSort(&ptrHead, iLength);
-        // optimizedSelectionSort(&ptrHead, iLength);
-        // insertionSort(&ptrHead);
-        radixSort(&ptrHead);
-        // ------ Seleciona o algoritmo de ordenação ------ 
+            deleteList(listCopy); // Limpar a lista após cada teste
+        }
 
-        // Captura o tempo após a ordenação
-        auto timeStop_1 = high_resolution_clock::now();
-
-        // Calcula o tempo de execução em microsegundos
-        auto timeDuration_1 = duration_cast<microseconds>(timeStop_1 - timeStart_1);
-        iExecutionTime = (int) timeDuration_1.count(); 
-
-        // Limpando a memória alocada para as listas
-        deleteList(ptrList);
-
-        // Exibe o tempo de execução
-        cout << iExecutionTime << endl;
+        deleteList(ptrList); // Limpar a lista após cada teste
     }
+
+    // Salvar os tempos de execução em arquivos
+
+    saveArray(timeBubble, iAmountOfTests, "bubble.txt");
+    saveArray(timeBubbleOptimized, iAmountOfTests, "bubbleOptimized.txt");
+    saveArray(timeIsertion, iAmountOfTests, "insertion.txt");
+    saveArray(timeSelection, iAmountOfTests, "selection.txt");
+    saveArray(timeSelectionOptimized, iAmountOfTests, "selectionOptimized.txt");
+    saveArray(timeRadix, iAmountOfTests, "radix.txt");
 
     // ==============================================================
     // ================= Parte 2 - Busca em Árvores =================
     // ==============================================================
 
+    // Preenchimento da árvore e da lista
+    int iSize = 10000;
+    int arriValues[iSize];
+    
+    for (int i = 0; i < iSize; i++)
+    {
+        arriValues[i] = i+1;
+    }
+
+    // Criação da árvore binária de busca e da lista duplamente encadeada
+    Node* root = nullptr;
+    DoublyLinkedList* list = nullptr;
+    
+    // Medição de tempo de criação da árvore e da lista
+    double timeCreateTree = measureExecutionTime([&]() 
+    { root = createTreeByArray(arriValues, iSize); } );
+    
+    double timeCreateList = measureExecutionTime([&]() 
+    { list = createListByArray(arriValues, iSize); } );
+
+    // Medição de tempo de busca
+    double timeSearchDFS = measureExecutionTime([&]() 
+    { for (int i = 0; i < iSize; i++) { searchDFS(root, i); } });
+
+    double timeSearchBFS = measureExecutionTime([&]() 
+    { for (int i = 0; i < iSize; i++) { searchBFS(root, i); } });
+
+    double timeSearchList = measureExecutionTime([&]() 
+    { for (int i = 0; i < iSize; i++) { searchList(list, i); } });
+
+
+    cout << "Tempo médio de criação da árvore: " << timeCreateTree << " microssegundos" << endl;
+    cout << "Tempo médio de criação da lista: " << timeCreateList << " microssegundos" << endl;
+    cout << endl;
+    cout << "Tempo médio de busca em profundidade: " << timeSearchDFS/iSize << " microssegundos" << endl;
+    cout << "Tempo médio de busca em largura: " << timeSearchBFS/iSize << " microssegundos" << endl;    
+    cout << "Tempo médio de busca na lista: " << timeSearchList/iSize << " microssegundos" << endl;
+
+    // Limpeza de memória
+    destroyTree(root);
+    deleteList(list);
+
     return 0;
+}
+
+// =======================================================================
+
+void saveArray(int iArr[], int iSize, string sFileName)
+{
+    ofstream file;
+    file.open("times outputs/"+ sFileName);
+
+    for (int i = 0; i < iSize; i++)
+    {
+        file << iArr[i] << endl;
+    }
+
+    file.close();
 }
