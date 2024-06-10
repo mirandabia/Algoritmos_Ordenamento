@@ -8,7 +8,6 @@ using std::cout;
 using std::endl;
 using std::cerr;
 
-Node* createNode(int);
 Node* createTreeByArray(int[], int);
 Node* insertNode(Node*, int);
 void destroyTree(Node*);

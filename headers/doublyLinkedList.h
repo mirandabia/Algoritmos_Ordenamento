@@ -25,5 +25,6 @@ DoublyLinkedList* createListByArray(int[], int);
 Node* searchList(DoublyLinkedList*, int);
 void pushList(DoublyLinkedList*, int);
 Node* popList(DoublyLinkedList*);
+DoublyLinkedList* copyList(DoublyLinkedList*);
 
 #endif
