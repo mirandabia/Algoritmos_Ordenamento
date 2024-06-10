@@ -107,3 +107,35 @@ Node* searchList(DoublyLinkedList* ptrList, int iValue) {
     }
     return nullptr;
 }
+
+DoublyLinkedList* copyList(DoublyLinkedList* head) {
+    if (head == nullptr || head->ptrHead == nullptr) {
+        return nullptr;
+    }
+
+    DoublyLinkedList* newList = new DoublyLinkedList;
+    newList->ptrHead = nullptr;
+    newList->ptrTail = nullptr;
+
+    Node* current = head->ptrHead;
+    Node* prevNode = nullptr;
+
+    while (current != nullptr) {
+        Node* newNode = new Node;
+        newNode->iPayload = current->iPayload;
+        newNode->ptrNext = nullptr;
+        newNode->ptrPrev = prevNode;
+
+        if (prevNode == nullptr) {
+            newList->ptrHead = newNode;
+        } else {
+            prevNode->ptrNext = newNode;
+        }
+
+        newList->ptrTail = newNode;
+        prevNode = newNode;
+        current = current->ptrNext;
+    }
+
+    return newList;
+}

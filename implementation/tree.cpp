@@ -1,20 +1,5 @@
 #include "../headers/tree.h"
 
-Node* createNode(int iValue)
-{
-    Node* temp = (Node*) malloc(sizeof(Node));
-    
-    if (temp == nullptr)
-    {
-        cerr << "Erro em createNode: malloc" << endl;
-        exit(1);
-    }
-    
-    temp->iPayload = iValue;
-    
-    return temp;
-}
-
 Node* createTreeByArray(int iArr[], int iSize)
 {
     Node* ptrRoot = nullptr;
